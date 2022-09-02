@@ -30,7 +30,7 @@ function toBytes(str)
 	for i=1,#str do 
 		local b = str:byte(i)
 		if b < 32 then 
-			table.insert(result, b)
+			result[#result + 1] = b
 		end
 	end
 	return result
@@ -47,9 +47,9 @@ function mysplit (inputstr, sep)
         if sep == nil then
                 sep = "%s"
         end
-        local t={}
-        for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
-                table.insert(t, str)
+        local t = {}
+        for str in inputstr:gmatch("([^"..sep.."]+)") do
+                t[#t + 1] = str
         end
         return t
 end
@@ -57,11 +57,11 @@ end
 function parseOptions(inputstr)
 	local t = {}
 	inputstr = inputstr:gsub("[%w+_-]+=[^=,]+={.-}", function (str)
-		table.insert(t, str)
+		t[#t + 1] = str
 		return '';
 	end)
 	inputstr = inputstr:gsub("[%w+_-]+=[^=,]+", function (str)
-		table.insert(t, str)
+		t[#t + 1] = str
 		return '';
 	end)
 	return t
@@ -498,7 +498,7 @@ table.filter = function(t, filterIter)
   local out = {}
 
   for k, v in pairs(t) do
-    if filterIter(v, k, t) then table.insert(out, v) end
+    if filterIter(v, k, t) then out[#out + 1] = str end
   end
 
   return out
